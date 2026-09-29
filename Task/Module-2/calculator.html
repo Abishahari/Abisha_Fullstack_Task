@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure JS Calculator</title>
+</head>
+<body>
+
+<script>
+/**
+ * 1. INJECT CALCULATOR STYLES (CSS)
+ */
+const style = document.createElement('style');
+style.textContent = `
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+    body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f4f4f9; }
+    .calculator { width: 320px; background-color: #1c1c1c; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    #display { width: 100%; height: 70px; background-color: transparent; border: none; outline: none; color: #fff; font-size: 2.5rem; text-align: right; padding: 10px; margin-bottom: 20px; }
+    .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .btn { height: 60px; border-radius: 50px; border: none; font-size: 1.25rem; font-weight: 600; cursor: pointer; background-color: #333; color: #fff; }
+    .btn:active { opacity: 0.8; }
+    .btn.op { background-color: #ff9f0a; }
+    .btn.fn { background-color: #a5a5a5; color: #000; }
+    .btn.zero { grid-column: span 2; border-radius: 30px; }
+`;
+document.head.appendChild(style);
+
+/**
+ * 2. BUILD STRUCTURE (HTML ELEMENTS)
+ */
+const calcContainer = document.createElement('div');
+calcContainer.className = 'calculator';
+
+const display = document.createElement('input');
+display.type = 'text';
+display.id = 'display';
+display.placeholder = '0';
+display.readOnly = true;
+calcContainer.appendChild(display);
+
+const buttonContainer = document.createElement('div');
+buttonContainer.className = 'buttons';
+calcContainer.appendChild(buttonContainer);
+
+document.body.appendChild(calcContainer);
+
+// Define buttons: [Label, Class type]
+const buttonLayout = [
+    ['AC', 'fn'], ['DEL', 'fn'], ['%', 'op'], ['/', 'op'],
+    ['7', ''],   ['8', ''],   ['9', ''],   ['*', 'op'],
+    ['4', ''],   ['5', ''],   ['6', ''],   ['-', 'op'],
+    ['1', ''],   ['2', ''],   ['3', ''],   ['+', 'op'],
+    ['0', 'zero'], ['.', ''],   ['=', 'op']
+];
+
+buttonLayout.forEach(([label, btnClass]) => {
+    const btn = document.createElement('button');
+    btn.textContent = label;
+    btn.className = `btn ${btnClass}`.trim();
+    
+    // Assign interaction events
+    if (label === 'AC') btn.addEventListener('click', clearDisplay);
+    else if (label === 'DEL') btn.addEventListener('click', deleteLast);
+    else if (label === '=') btn.addEventListener('click', calculate);
+    else if (['+', '-', '*', '/', '%'].includes(label)) btn.addEventListener('click', () => appendOperator(label));
+    else btn.addEventListener('click', () => appendNumber(label));
+    
+    buttonContainer.appendChild(btn);
+});
+
+/**
+ * 3. CALCULATOR LOGIC
+ */
+let currentInput = '';
+let shouldResetDisplay = false;
+
+function appendNumber(number) {
+    if (shouldResetDisplay) {
+        currentInput = '';
+        shouldResetDisplay = false;
+    }
+    if (number === '.' && currentInput.split(/[\+\-\*\/%]/).pop().includes('.')) return;
+    currentInput += number;
+    updateDisplay();
+}
+
+function appendOperator(operator) {
+    if (currentInput === '' && operator !== '-') return;
+    if (shouldResetDisplay) shouldResetDisplay = false;
+
+    const lastChar = currentInput.trim().slice(-1);
+    if (['+', '-', '*', '/', '%'].includes(lastChar)) {
+        currentInput = currentInput.slice(0, -1) + operator;
+    } else {
+        currentInput += operator;
+    }
+    updateDisplay();
+}
+
+function clearDisplay() { currentInput = ''; updateDisplay(); }
+function deleteLast() { currentInput = currentInput.toString().slice(0, -1); updateDisplay(); }
+function updateDisplay() { display.value = currentInput || '0'; }
+
+function calculate() {
+    if (currentInput === '') return;
+    try {
+        const result = new Function(`return ${currentInput}`)();
+        if (result === Infinity || isNaN(result)) {
+            display.value = "Error";
+            currentInput = '';
+        } else {
+            currentInput = Number(result.toFixed(8)).toString();
+            updateDisplay();
+        }
+    } catch {
+        display.value = "Error";
+        currentInput = '';
+    }
+    shouldResetDisplay = true;
+}
+</script>
+
+</body>
+</html>

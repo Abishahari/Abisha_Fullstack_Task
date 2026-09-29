@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Event Management</title>
+
+    <style>
+        /* =========================
+           CSS
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 18px 8%;
+
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #5b3df5;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #172033;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #5b3df5;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 550px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 70px 8%;
+
+            background: linear-gradient(
+                135deg,
+                #eeeaff,
+                #ffffff
+            );
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-small {
+            color: #5b3df5;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #5b3df5;
+        }
+
+        .hero p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 25px;
+            border-radius: 8px;
+            border: none;
+            background: #5b3df5;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #4326d4;
+        }
+
+        .hero-card {
+            width: 280px;
+            padding: 40px;
+            text-align: center;
+
+            background: white;
+            border-radius: 20px;
+
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        .hero-card .icon {
+            font-size: 65px;
+            margin-bottom: 15px;
+        }
+
+        .hero-card h2 {
+            color: #5b3df5;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: white;
+            padding: 40px 8%;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat h2 {
+            color: #5b3df5;
+            font-size: 35px;
+        }
+
+        .stat p {
+            color: #777;
+        }
+
+        /* SECTIONS */
+
+        section {
+            padding: 80px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title small {
+            color: #5b3df5;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .section-title h2 {
+            font-size: 40px;
+            margin: 10px 0;
+        }
+
+        .section-title p {
+            color: #777;
+        }
+
+        /* SEARCH */
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .controls input,
+        .controls select {
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .controls input {
+            width: 350px;
+        }
+
+        /* EVENTS */
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-7px);
+        }
+
+        .event-image {
+            height: 130px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 60px;
+
+            background: linear-gradient(
+                135deg,
+                #eeeaff,
+                #f8f7ff
+            );
+        }
+
+        .event-content {
+            padding: 25px;
+        }
+
+        .category {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+
+            background: #eeeaff;
+            color: #5b3df5;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .event-content h3 {
+            margin: 12px 0;
+            font-size: 22px;
+        }
+
+        .event-info {
+            color: #777;
+            font-size: 14px;
+            margin: 7px 0;
+        }
+
+        .event-description {
+            color: #666;
+            margin: 12px 0;
+        }
+
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+        }
+
+        .event-footer button {
+            padding: 9px 14px;
+            border: none;
+            border-radius: 6px;
+            background: #5b3df5;
+            color: white;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background: #e63946 !important;
+        }
+
+        /* FORM */
+
+        .form {
+            max-width: 800px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+
+            padding: 35px;
+
+            background: white;
+            border-radius: 15px;
+
+            box-shadow: 0 10px 35px rgba(0,0,0,0.07);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 13px;
+
+            border: 1px solid #ddd;
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .message {
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #5b3df5;
+            color: white;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #111827;
+            color: white;
+
+            padding: 35px 8%;
+
+            display: flex;
+            justify-content: space-between;
+        }
+
+        footer span {
+            color: #9d8cff;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+            .event-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 50px 5%;
+            }
+
+            .hero-card {
+                width: 100%;
+            }
+
+            section {
+                padding: 60px 5%;
+            }
+
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .controls input {
+                width: 100%;
+            }
+
+            .form {
+                grid-template-columns: 1fr;
+                padding: 25px;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <div class="logo">
+            🎓 CampusEvents
+        </div>
+
+        <nav>
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#events">
+                Events
+            </a>
+
+            <a href="#register">
+                Register
+            </a>
+
+            <a href="#manage">
+                Manage
+            </a>
+
+            <a href="#students">
+                Students
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HOME ================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="hero-small">
+                COLLEGE EVENT MANAGEMENT SYSTEM
+            </div>
+
+            <h1>
+                Discover.
+                <span>Participate.</span>
+                Celebrate.
+            </h1>
+
+            <p>
+                Explore technical, cultural and sports
+                events happening on campus. Register for
+                your favourite events and participate.
+            </p>
+
+            <a href="#events" class="btn">
+                Explore Events
+            </a>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <div class="icon">
+                🎯
+            </div>
+
+            <h3>
+                Upcoming Events
+            </h3>
+
+            <h2 id="heroCount">
+                0 Events
+            </h2>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <h2 id="totalEvents">
+                0
+            </h2>
+
+            <p>
+                Events
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2 id="totalParticipants">
+                0
+            </h2>
+
+            <p>
+                Participants
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>
+                3
+            </h2>
+
+            <p>
+                Categories
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>
+                24/7
+            </h2>
+
+            <p>
+                Registration
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= EVENTS ================= -->
+
+    <section id="events">
+
+        <div class="section-title">
+
+            <small>
+                DISCOVER EVENTS
+            </small>
+
+            <h2>
+                Upcoming Events
+            </h2>
+
+            <p>
+                Find an event and join the campus experience.
+            </p>
+
+        </div>
+
+
+        <!-- Search -->
+
+        <div class="controls">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="🔍 Search events..."
+            >
+
+            <select id="category">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option value="Technical">
+                    Technical
+                </option>
+
+                <option value="Cultural">
+                    Cultural
+                </option>
+
+                <option value="Sports">
+                    Sports
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- Event Cards -->
+
+        <div
+            class="event-grid"
+            id="eventContainer">
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= REGISTRATION ================= -->
+
+    <section id="register">
+
+        <div class="section-title">
+
+            <small>
+                JOIN AN EVENT
+            </small>
+
+            <h2>
+                Student Registration
+            </h2>
+
+            <p>
+                Register for your favourite college event.
+            </p>
+
+        </div>
+
+
+        <form
+            class="form"
+            id="registrationForm">
+
+            <div class="form-group">
+
+                <label>
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter your name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="studentEmail"
+                    placeholder="Enter email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Department
+                </label>
+
+                <select id="department" required>
+
+                    <option value="">
+                        Select Department
+                    </option>
+
+                    <option>
+                        Computer Science
+                    </option>
+
+                    <option>
+                        Information Technology
+                    </option>
+
+                    <option>
+                        Electronics
+                    </option>
+
+                    <option>
+                        Mechanical
+                    </option>
+
+                    <option>
+                        Civil
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Select Event
+                </label>
+
+                <select id="eventSelect" required>
+
+                    <option value="">
+                        Select Event
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                class="btn full"
+                type="submit">
+
+                Register Now
+
+            </button>
+
+        </form>
+
+
+        <div
+            id="message"
+            class="message">
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MANAGE EVENTS ================= -->
+
+    <section id="manage">
+
+        <div class="section-title">
+
+            <small>
+                EVENT MANAGEMENT
+            </small>
+
+            <h2>
+                Add New Event
+            </h2>
+
+            <p>
+                Create and manage college events.
+            </p>
+
+        </div>
+
+
+        <form
+            class="form"
+            id="eventForm">
+
+            <div class="form-group">
+
+                <label>
+                    Event Name
+                </label>
+
+                <input
+                    type="text"
+                    id="eventName"
+                    placeholder="Example: AI Workshop"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Category
+                </label>
+
+                <select
+                    id="eventCategory"
+                    required>
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    <option>
+                        Technical
+                    </option>
+
+                    <option>
+                        Cultural
+                    </option>
+
+                    <option>
+                        Sports
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Date
+                </label>
+
+                <input
+                    type="date"
+                    id="eventDate"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Venue
+                </label>
+
+                <input
+                    type="text"
+                    id="eventVenue"
+                    placeholder="Main Auditorium"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    Description
+                </label>
+
+                <textarea
+                    id="eventDescription"
+                    placeholder="Event description"
+                    required>
+                </textarea>
+
+            </div>
+
+
+            <button
+                class="btn full"
+                type="submit">
+
+                + Add Event
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- ================= STUDENTS ================= -->
+
+    <section id="students">
+
+        <div class="section-title">
+
+            <small>
+                REGISTRATIONS
+            </small>
+
+            <h2>
+                Registered Students
+            </h2>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Event
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="studentTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div>
+
+            <h3>
+                🎓 <span>CampusEvents</span>
+            </h3>
+
+            <p>
+                College Event Management System
+            </p>
+
+        </div>
+
+        <p>
+            © 2026 CampusEvents
+        </p>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT ES6
+    ===================================================== -->
+
+    <script>
+
+        /* =========================================
+           DEFAULT EVENTS
+        ========================================= */
+
+        const defaultEvents = [
+
+            {
+                id: 1,
+                name: "Tech Hackathon",
+                category: "Technical",
+                date: "2026-10-10",
+                venue: "Computer Lab",
+                description:
+                    "Build innovative solutions and compete with talented developers.",
+                participants: 25,
+                icon: "💻"
+            },
+
+            {
+                id: 2,
+                name: "Paper Presentation",
+                category: "Technical",
+                date: "2026-10-15",
+                venue: "Seminar Hall",
+                description:
+                    "Present your innovative research ideas and technical papers.",
+                participants: 18,
+                icon: "📚"
+            },
+
+            {
+                id: 3,
+                name: "Cultural Fest",
+                category: "Cultural",
+                date: "2026-10-20",
+                venue: "Main Auditorium",
+                description:
+                    "Celebrate music, dance, art and cultural diversity.",
+                participants: 75,
+                icon: "🎭"
+            },
+
+            {
+                id: 4,
+                name: "Coding Contest",
+                category: "Technical",
+                date: "2026-10-25",
+                venue: "Programming Lab",
+                description:
+                    "Test your programming skills through challenging problems.",
+                participants: 40,
+                icon: "👨‍💻"
+            },
+
+            {
+                id: 5,
+                name: "Football Tournament",
+                category: "Sports",
+                date: "2026-11-01",
+                venue: "College Ground",
+                description:
+                    "Compete against the best college football teams.",
+                participants: 60,
+                icon: "⚽"
+            },
+
+            {
+                id: 6,
+                name: "Robotics Competition",
+                category: "Technical",
+                date: "2026-11-10",
+                venue: "Innovation Lab",
+                description:
+                    "Design and demonstrate your innovative robot.",
+                participants: 30,
+                icon: "🤖"
+            }
+
+        ];
+
+
+        /* =========================================
+           ES6 CLASS
+        ========================================= */
+
+        class EventManager {
+
+            constructor() {
+
+                this.events =
+                    this.loadEvents();
+
+                this.students =
+                    this.loadStudents();
+
+            }
+
+
+            /* Load Events */
+
+            loadEvents() {
+
+                const data =
+                    localStorage.getItem(
+                        "events"
+                    );
+
+                return data
+                    ? JSON.parse(data)
+                    : [...defaultEvents];
+
+            }
+
+
+            /* Save Events */
+
+            saveEvents() {
+
+                localStorage.setItem(
+                    "events",
+                    JSON.stringify(this.events)
+                );
+
+            }
+
+
+            /* Load Students */
+
+            loadStudents() {
+
+                const data =
+                    localStorage.getItem(
+                        "students"
+                    );
+
+                return data
+                    ? JSON.parse(data)
+                    : [];
+
+            }
+
+
+            /* Save Students */
+
+            saveStudents() {
+
+                localStorage.setItem(
+                    "students",
+                    JSON.stringify(this.students)
+                );
+
+            }
+
+
+            /* Add Event */
+
+            addEvent(event) {
+
+                const newEvent = {
+
+                    ...event,
+
+                    id: Date.now(),
+
+                    participants: 0
+
+                };
+
+                this.events.push(newEvent);
+
+                this.saveEvents();
+
+            }
+
+
+            /* Delete Event */
+
+            deleteEvent(id) {
+
+                this.events =
+                    this.events.filter(
+                        event =>
+                            event.id !== id
+                    );
+
+                this.saveEvents();
+
+            }
+
+
+            /* Find Event */
+
+            findEvent(id) {
+
+                return this.events.find(
+                    event =>
+                        event.id === id
+                );
+
+            }
+
+
+            /* Register Student */
+
+            registerStudent(student) {
+
+                const selectedEvent =
+                    this.findEvent(
+                        Number(student.eventId)
+                    );
+
+
+                if (!selectedEvent) {
+
+                    return false;
+
+                }
+
+
+                const registration = {
+
+                    ...student,
+
+                    eventName:
+                        selectedEvent.name,
+
+                    id: Date.now()
+
+                };
+
+
+                this.students.push(
+                    registration
+                );
+
+
+                selectedEvent.participants++;
+
+
+                this.saveEvents();
+
+                this.saveStudents();
+
+
+                return true;
+
+            }
+
+        }
+
+
+        /* =========================================
+           CREATE EVENT MANAGER
+        ========================================= */
+
+        const manager =
+            new EventManager();
+
+
+        /* =========================================
+           DOM ELEMENTS
+        ========================================= */
+
+        const eventContainer =
+            document.querySelector(
+                "#eventContainer"
+            );
+
+        const eventSelect =
+            document.querySelector(
+                "#eventSelect"
+            );
+
+        const registrationForm =
+            document.querySelector(
+                "#registrationForm"
+            );
+
+        const eventForm =
+            document.querySelector(
+                "#eventForm"
+            );
+
+        const studentTable =
+            document.querySelector(
+                "#studentTable"
+            );
+
+
+        /* =========================================
+           FORMAT DATE
+        ========================================= */
+
+        const formatDate = date => {
+
+            return new Date(date)
+                .toLocaleDateString(
+                    "en-IN",
+                    {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                    }
+                );
+
+        };
+
+
+        /* =========================================
+           DISPLAY EVENTS
+        ========================================= */
+
+        const displayEvents = (
+            events = manager.events
+        ) => {
+
+            eventContainer.innerHTML = "";
+
+
+            if (events.length === 0) {
+
+                eventContainer.innerHTML = `
+
+                    <p style="
+                        text-align:center;
+                        grid-column:1/-1;
+                    ">
+
+                        No events found.
+
+                    </p>
+
+                `;
+
+                return;
+            }
+
+
+            events.forEach(event => {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "event-card";
+
+
+                card.innerHTML = `
+
+                    <div class="event-image">
+
+                        ${event.icon}
+
+                    </div>
+
+
+                    <div class="event-content">
+
+                        <span class="category">
+
+                            ${event.category}
+
+                        </span>
+
+
+                        <h3>
+
+                            ${event.name}
+
+                        </h3>
+
+
+                        <p class="event-info">
+
+                            📅 ${formatDate(event.date)}
+
+                        </p>
+
+
+                        <p class="event-info">
+
+                            📍 ${event.venue}
+
+                        </p>
+
+
+                        <p class="event-info">
+
+                            👥 ${event.participants}
+                            Participants
+
+                        </p>
+
+
+                        <p class="event-description">
+
+                            ${event.description}
+
+                        </p>
+
+
+                        <div class="event-footer">
+
+                            <button
+                                onclick="
+                                selectEvent(${event.id})
+                                ">
+
+                                Register
+
+                            </button>
+
+
+                            <button
+                                class="delete-btn"
+                                onclick="
+                                removeEvent(${event.id})
+                                ">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                eventContainer.appendChild(
+                    card
+                );
+
+            });
+
+        };
+
+
+        /* =========================================
+           EVENT SELECT OPTIONS
+        ========================================= */
+
+        const loadEventOptions = () => {
+
+            eventSelect.innerHTML = `
+
+                <option value="">
+
+                    Select Event
+
+                </option>
+
+            `;
+
+
+            manager.events.forEach(
+                ({ id, name }) => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value = id;
+
+                    option.textContent = name;
+
+
+                    eventSelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        };
+
+
+        /* =========================================
+           SELECT EVENT
+        ========================================= */
+
+        const selectEvent = id => {
+
+            eventSelect.value = id;
+
+
+            document
+                .querySelector("#register")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        };
+
+
+        /* =========================================
+           DELETE EVENT
+        ========================================= */
+
+        const removeEvent = id => {
+
+            const event =
+                manager.findEvent(id);
+
+
+            if (!event) return;
+
+
+            const confirmDelete =
+                confirm(
+                    `Delete ${event.name}?`
+                );
+
+
+            if (!confirmDelete) return;
+
+
+            manager.deleteEvent(id);
+
+
+            displayEvents();
+
+            loadEventOptions();
+
+            updateStats();
+
+        };
+
+
+        /* =========================================
+           SEARCH AND FILTER
+        ========================================= */
+
+        const searchInput =
+            document.querySelector(
+                "#search"
+            );
+
+        const categoryFilter =
+            document.querySelector(
+                "#category"
+            );
+
+
+        const filterEvents = () => {
+
+            const searchText =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const category =
+                categoryFilter.value;
+
+
+            const filtered =
+                manager.events.filter(
+                    event => {
+
+                        const searchMatch =
+                            event.name
+                                .toLowerCase()
+                                .includes(
+                                    searchText
+                                );
+
+
+                        const categoryMatch =
+                            category === "all" ||
+                            event.category ===
+                            category;
+
+
+                        return (
+                            searchMatch &&
+                            categoryMatch
+                        );
+
+                    }
+                );
+
+
+            displayEvents(filtered);
+
+        };
+
+
+        searchInput.addEventListener(
+            "input",
+            filterEvents
+        );
+
+
+        categoryFilter.addEventListener(
+            "change",
+            filterEvents
+        );
+
+
+        /* =========================================
+           STUDENT REGISTRATION
+        ========================================= */
+
+        registrationForm.addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
+
+
+                const student = {
+
+                    name:
+                        document.querySelector(
+                            "#studentName"
+                        ).value.trim(),
+
+
+                    email:
+                        document.querySelector(
+                            "#studentEmail"
+                        ).value.trim(),
+
+
+                    department:
+                        document.querySelector(
+                            "#department"
+                        ).value,
+
+
+                    eventId:
+                        eventSelect.value
+
+                };
+
+
+                const success =
+                    manager.registerStudent(
+                        student
+                    );
+
+
+                const message =
+                    document.querySelector(
+                        "#message"
+                    );
+
+
+                if (success) {
+
+                    message.textContent =
+                        `Registration successful!
+                        ${student.name} has been registered.`;
+
+                    message.className =
+                        "message success";
+
+
+                    registrationForm.reset();
+
+
+                    displayEvents();
+
+                    loadEventOptions();
+
+                    displayStudents();
+
+                    updateStats();
+
+                }
+
+                else {
+
+                    message.textContent =
+                        "Please select a valid event.";
+
+                    message.className =
+                        "message error";
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           ADD NEW EVENT
+        ========================================= */
+
+        eventForm.addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
+
+
+                const category =
+                    document.querySelector(
+                        "#eventCategory"
+                    ).value;
+
+
+                const icons = {
+
+                    Technical: "💻",
+
+                    Cultural: "🎭",
+
+                    Sports: "🏆"
+
+                };
+
+
+                const newEvent = {
+
+                    name:
+                        document.querySelector(
+                            "#eventName"
+                        ).value.trim(),
+
+
+                    category: category,
+
+
+                    date:
+                        document.querySelector(
+                            "#eventDate"
+                        ).value,
+
+
+                    venue:
+                        document.querySelector(
+                            "#eventVenue"
+                        ).value.trim(),
+
+
+                    description:
+                        document.querySelector(
+                            "#eventDescription"
+                        ).value.trim(),
+
+
+                    icon:
+                        icons[category] || "🎯"
+
+                };
+
+
+                manager.addEvent(
+                    newEvent
+                );
+
+
+                eventForm.reset();
+
+
+                displayEvents();
+
+                loadEventOptions();
+
+                updateStats();
+
+
+                alert(
+                    "Event added successfully!"
+                );
+
+            }
+        );
+
+
+        /* =========================================
+           DISPLAY STUDENTS
+        ========================================= */
+
+        const displayStudents = () => {
+
+            studentTable.innerHTML = "";
+
+
+            if (
+                manager.students.length === 0
+            ) {
+
+                studentTable.innerHTML = `
+
+                    <tr>
+
+                        <td colspan="4"
+                            style="text-align:center">
+
+                            No registrations yet.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+            }
+
+
+            manager.students.forEach(
+                ({
+                    name,
+                    email,
+                    department,
+                    eventName
+                }) => {
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${name}
+                        </td>
+
+                        <td>
+                            ${email}
+                        </td>
+
+                        <td>
+                            ${department}
+                        </td>
+
+                        <td>
+                            ${eventName}
+                        </td>
+
+                    `;
+
+
+                    studentTable.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+        };
+
+
+        /* =========================================
+           UPDATE STATISTICS
+        ========================================= */
+
+        const updateStats = () => {
+
+            const totalEvents =
+                manager.events.length;
+
+
+            const totalParticipants =
+                manager.events.reduce(
+                    (
+                        total,
+                        event
+                    ) =>
+                        total +
+                        event.participants,
+                    0
+                );
+
+
+            document.querySelector(
+                "#totalEvents"
+            ).textContent =
+                totalEvents;
+
+
+            document.querySelector(
+                "#totalParticipants"
+            ).textContent =
+                totalParticipants;
+
+
+            document.querySelector(
+                "#heroCount"
+            ).textContent =
+                `${totalEvents} Events`;
+
+        };
+
+
+        /* =========================================
+           INITIALIZE APPLICATION
+        ========================================= */
+
+        const init = () => {
+
+            displayEvents();
+
+            loadEventOptions();
+
+            displayStudents();
+
+            updateStats();
+
+        };
+
+
+        init();
+
+    </script>
+
+</body>
+</html>
